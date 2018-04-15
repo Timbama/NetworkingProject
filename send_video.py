@@ -1,7 +1,7 @@
 import socket
 import numpy as np
 import cv2
-UDP_IP = '127.0.0.1'                  
+UDP_IP = '10.0.1.36'                  
 UDP_PORT = 999        
 cap = cv2.VideoCapture('drop.avi')
 while(True):
@@ -11,7 +11,7 @@ while(True):
    d = frame.flatten ()
    s = d.tostring ()
    for i in range(20):
-        sock.sendto (s[i*184320:(i+1)*184320],(UDP_IP, UDP_PORT))
+        sock.sendto (s[i*46080:(i+1)*46080],(UDP_IP, UDP_PORT))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
           break

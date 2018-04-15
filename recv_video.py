@@ -1,25 +1,40 @@
-#Server prog
-
 import socket
-import numpy
-import time
+import sys
 import cv2
+import pickle
+import numpy as np
+import struct 
 
-UDP_IP="127.0.0.1"
-UDP_PORT = 999
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+HOST=''
+PORT=8089
 
-s=""
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+print ('Socket created')
 
+s.bind((HOST,PORT))
+print ('Socket bind complete')
+s.listen(10)
+print ('Socket now listening')
+
+conn,addr=s.accept()
+
+
+data = b''
+payload_size = struct.calcsize("L") 
 while True:
-      data, addr = sock.recvfrom(259200)
-      s+= data
-      if len(s) == (259200*20):
-          frame = numpy.fromstring (s, dtype=numpy.uint8)
-          frame = frame.reshape(720,1280,3)
-          cv2.imshow("frame",frame)
+    while len(data) < payload_size:
+        data += conn.recv(4096)
+    packed_msg_size = data[:payload_size]
+    data = data[payload_size:]
+    msg_size = struct.unpack("L", packed_msg_size)[0]
+    while len(data) < msg_size:
+        data += conn.recv(4096)
+    frame_data = data[:msg_size]
+    data = data[msg_size:]
+    ###
 
-          s=""
-      if cv2.waitKey(1) & 0xFF == ord('q'):
-          break
+    frame=pickle.loads(frame_data)
+    print (frame)
+    cv2.imshow('frame',frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
