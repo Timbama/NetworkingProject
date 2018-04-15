@@ -2,8 +2,13 @@ import socket
 import numpy as np
 import cv2
 UDP_IP = '10.0.1.36'                  
+<<<<<<< HEAD
 UDP_PORT = 4096        
 cap = cv2.VideoCapture(0)
+=======
+UDP_PORT = 999        
+cap = cv2.VideoCapture('drop.avi')
+>>>>>>> 9ea5d95fd2885ee492bb99b92021823c21b44fc3
 while(True):
    ret, frame = cap.read()
    cv2.imshow('frame',frame)
