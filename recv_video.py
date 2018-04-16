@@ -1,7 +1,7 @@
 import socket
 import sys
 import cv2
-import pickle
+import _pickle
 import numpy as np
 import struct 
 
@@ -33,7 +33,7 @@ while True:
     data = data[msg_size:]
     ###
 
-    frame=pickle.loads(frame_data)
+    frame=_pickle.loads(frame_data)
     print (frame)
     cv2.imshow('frame',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
