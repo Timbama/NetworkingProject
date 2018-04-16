@@ -4,12 +4,14 @@ import socket
 import sys
 import _pickle
 import struct 
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 
 cap=cv2.VideoCapture(1)
 clientsocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-clientsocket.connect(('10.0.1.36',8089))
+clientsocket.connect(('10.100.68.207',8089))
 
 while True:
     ret,frame=cap.read()
-    data = _pickle.dumps(frame, protocol=2 )
-    clientsocket.sendall(struct.pack("L", len(data))+data)
+    img_str = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])[1].tostring()
+    print(len(img_str))
+    clientsocket.sendall(img_str)

@@ -2,7 +2,7 @@ import socket
 import cv2
 import numpy as np
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-IP= "10.0.1.36"
+IP= "10.100.68.207"
 port = 5000
 Message="test".encode()
 cap = cv2.VideoCapture(1)

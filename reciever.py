@@ -1,9 +1,7 @@
 import socket
 import sys
 import cv2
-import _pickle
 import numpy as np
-import struct 
 
 HOST=''
 PORT=5000
