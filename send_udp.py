@@ -5,8 +5,7 @@ def send_udp(frame, host, port, sock):
         img_str = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])[1].tostring()
         print(len(img_str))
         sock.sendto(img_str, (host, port))
-  
-
+'''
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 IP= "10.100.68.207"
 port = 5000
@@ -18,3 +17,4 @@ while True:
         img_str = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])[1].tostring()
         print(len(img_str))
         sen.sendto(img_str, (IP, port))
+'''

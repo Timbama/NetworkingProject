@@ -15,10 +15,11 @@ def send_tcp(frame, sock):
     print(len(img_str))
     sock.sendall(img_str)
 
-
+'''
 sock = open_tcp('10.100.68.207', 8089)
 
 
 while True:
     ret,frame=cap.read()
     send_tcp(frame,sock)
+'''

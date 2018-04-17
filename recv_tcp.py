@@ -15,7 +15,7 @@ def tcp_open(host, port):
     print ('Socket now listening')
     conn = s.accept()[0]
     return conn
-
+'''
 HOST=''
 PORT=8089
 
@@ -40,3 +40,4 @@ while True:
         cv2.imshow('frame',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+'''
