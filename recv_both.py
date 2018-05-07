@@ -6,9 +6,9 @@ import numpy as np
 import struct 
 from recv_tcp import tcp_open
 # setup a host and port number
-cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,(1280,720))
+out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 25,(1280,720))
 host = '10.0.1.22'
-port = 5000
+port = 8089
 # create a UDP scocket to recieve data and bind it to the port
 s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 s.bind(('',port))
@@ -31,6 +31,7 @@ while True:
                 frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
                 if type(frame) is np.ndarray:
                     cv2.imshow('frame',frame)
+                    out.write(frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
     else:
@@ -43,8 +44,10 @@ while True:
             else:
                 frame = np.fromstring (data, dtype=np.uint8)
                 frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
-                cv2.imwrite("frame",frame)
+                cv2.imshow('frame',frame)
+                out.write(frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
+                    out.release()
                     break
 
 
