@@ -5,34 +5,46 @@ import _pickle
 import numpy as np
 import struct 
 from recv_tcp import tcp_open
-
-host = ''
-port = 8089
-
+# setup a host and port number
+cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10,(1280,720))
+host = '10.0.1.22'
+port = 5000
+# create a UDP scocket to recieve data and bind it to the port
 s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-s.bind((host,port))
+s.bind(('',port))
+
 print ('Socket created')
-conn = tcp_open(host, port)
-data, addr = s.recvfrom(1024)
+# recieve the initial state of the system
+data, addr = s.recvfrom(90000)
 while True:  
-    if data.decode() == 'TCP':
+    # if the state of the system is TCp then setup the TCP connection
+    if data == b'TCP':
+        conn = tcp_open(host, port)
         while True:
-            if data.decode() == 'UDP':
+            # run in a loop until the switch command is received
+            data = conn.recv(90000)
+            if data == b'UDP':
                 break
             else:
-                data = conn.recv(90000)
+                # decode the frame from a string to a jpg then to a numpy array
                 frame = np.fromstring (data, dtype=np.uint8)
                 frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
                 if type(frame) is np.ndarray:
                     cv2.imshow('frame',frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
     else:
+        # if the UDP option is selected then loop through reccieving over UDP
         while True:
-            if data.decode() == 'TCP':
+            data, addr = s.recvfrom(90000)
+            # break if the TCP command is sent
+            if data == b'TCP':
                 break
             else:
-                data, addr = s.recvfrom(90000)
                 frame = np.fromstring (data, dtype=np.uint8)
                 frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
-                cv2.imshow("frame",frame)
+                cv2.imwrite("frame",frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
 
 

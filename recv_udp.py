@@ -2,6 +2,9 @@ import socket
 import sys
 import cv2
 import numpy as np
+'''
+This is the prototype for the UDP reciever
+'''
 
 HOST=''
 PORT=5000

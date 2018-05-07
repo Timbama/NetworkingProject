@@ -4,7 +4,11 @@ import cv2
 import _pickle
 import numpy as np
 import struct 
+
 def tcp_open(host, port):
+    '''
+    This function sets up a TCP connection for the provide host and port then return the connection object
+    '''
     HOST=host
     PORT=port
     s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
